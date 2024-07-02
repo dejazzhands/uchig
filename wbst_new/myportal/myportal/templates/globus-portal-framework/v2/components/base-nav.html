@@ -1,0 +1,84 @@
+{% load static %}
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark navbar-base-nav">
+  <a class="navbar-brand" href="{% block project_url %}{{ project_url|default:'/' }}{% endblock %}">
+    {% block project_title %}
+    {% if globus_portal_framework.index_data.tagline %}
+    {{globus_portal_framework.index_data.name|default:'globus_portal_framework.index'}}: {{globus_portal_framework.index_data.tagline}}
+    {% else %}
+    {{globus_portal_framework.project_title}}
+    {% endif %}
+    {% endblock %}
+  </a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <!-- Add your custom links here -->
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'Team' %}">Team</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'Research' %}">Research</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'News' %}">News</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'Partners' %}">Partners</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'Repository' %}">Repository</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link
+          {% if not request.user.is_authenticated %}
+          disabled
+          {% endif %}
+        " href="{% url 'Upload_Data' %}">Upload Data</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'Knowledge_Map' %}">Knowledge Map</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'ML_Computing_Toolbox' %}">ML Computing Toolbox</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'Test_Tagging_System' %}">Test Tagging System</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="https://ruiding-uchicago.github.io/" target="_blank">Contact Administrator</a>
+      </li>
+
+      <!-- ...other links -->
+    </ul>
+      <ul class="navbar-nav my-lg-0">
+      {%if globus_portal_framework.auth_enabled and request.user.is_authenticated %}
+      <li>
+        <a class="nav-link nav-link-base-nav" href="{% url 'logout' %}?next=/">Logout</a>
+      </li>
+      <li>
+        <a class="nav-link nav-link-base-nav" href="/">{{request.user.username }}</a>
+      </li>
+      {% elif globus_portal_framework.auth_enabled %}
+      <li>
+        <a class="nav-link nav-link-base-nav btn btn-dark" href="{% url 'social:begin' 'globus' %}?next={{ request.get_full_path|urlencode }}">
+          <img src="{% static 'globus-portal-framework/images/globus.png' %}" height="32px" width="32px" style="border-radius: 4px">
+           Login
+        </a>
+      </li>
+      {% endif %}
+    </ul>
+  </div>
+</nav>
+
+<script>
+  document.addEventListener('DOMContentLoaded', (event) => {
+    document.querySelectorAll('.nav-link.disabled').forEach(link => {
+      link.addEventListener('click', function(e) {
+        e.preventDefault(); // 阻止链接的默认点击行为
+      });
+    });
+  });
+</script>
+  

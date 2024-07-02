@@ -1,0 +1,99 @@
+{# myportal/templates/globus-portal-framework/v2/components/search-results.html #}
+
+<style>
+  .document-format {
+      background-color: lightgreen; /* 浅绿色背景 */
+      padding: 2px 5px;
+      border-radius: 5px;
+  }
+
+  .data-type {
+      background-color: lightblue; /* 浅蓝色背景 */
+      padding: 2px 5px;
+      border-radius: 5px;
+  }
+
+  .abstract-btn {
+    /* 添加所需的按钮样式 */
+  }
+
+  .abstract-content {
+      position: absolute;
+      background-color: white;
+      border: 1px solid #ddd;
+      padding: 10px;
+      border-radius: 5px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      /* 其他所需样式 */
+  
+  }
+  .link-btn {
+      background-color: lightyellow; /* 浅黄色背景 */
+      padding: 2px 5px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      text-decoration: none; /* 去掉下划线 */
+      color: black; /* 文本颜色 */
+      cursor: pointer; /* 鼠标样式 */
+      margin-left: 10px; /* 与其他元素的间距 */
+  }
+  /* 您还可以在这里添加其他 CSS 样式 */
+</style>
+
+<div>
+  {% for result in search.search_results %}
+  <div class="card my-3">
+    <div class="card-header d-flex justify-content-between">
+      <h3 class="search-title">
+        <a href="{% url 'detail' globus_portal_framework.index result.subject %}">{{result.title|default:'Result'}}</a>
+      </h3>
+      <div>
+        <strong>Document Format:</strong> <span class="document-format">{{ result.document_format }}</span>
+        <strong>Data Type:</strong> <span class="data-type">{{ result.data_type }}</span>
+      </div>
+      <button class="abstract-btn">Abstract</button>
+      <div class="abstract-content" style="display: none;">
+        {{ result.abstract_description }}
+      </div>
+      {% if result.outer_link %}
+          <a href="{{ result.outer_link }}" class="link-btn">External Link</a>
+        {% endif %}
+    </div>
+    <div class="card-body">
+      <table class="table table-sm borderless">
+        <tbody>
+        <tr>
+          {% for item in result.search_highlights %}
+          <th>{{item.title}}</th>
+          {% endfor %}
+        </tr>
+        <tr>
+          {% for item in result.search_highlights %}
+          {% if item.type == "date" %}
+          <th>{{item.value | date:"DATETIME_FORMAT"}}</th>
+          {% else %}
+          <th>{{item.value}}</th>
+          {% endif %}
+          {% endfor %}
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.abstract-btn').forEach(function(button) {
+      button.addEventListener('mouseover', function() {
+        this.nextElementSibling.style.display = 'block';
+      });
+
+      button.addEventListener('mouseout', function() {
+        this.nextElementSibling.style.display = 'none';
+      });
+    });
+  });
+</script>
