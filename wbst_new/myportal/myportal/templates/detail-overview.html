@@ -3,7 +3,7 @@
 
 
 {%block headextras%}
-  <link rel="stylesheet" type="text/css" href="{% static 'css/search.css' %}" />
+  <link rel="stylesheet" type="text/css" href="{% 'static/css/search.css' %}" />
   <link rel="stylesheet" type="text/css" href="{% static 'css/detail-base.css' %}" />
   <link rel="stylesheet" type="text/css" href="{% static 'css/detail-overview.css' %}" />
 {%endblock%}
@@ -12,7 +12,7 @@
 
 <div class="row">
   <div class="col-md-12">
-    <p>The vision of MADE-PUBLIC is a future intelligent, scalable, and democratized manufacturing paradigmto enable distributed manufacturing of low-cost printable electronic devices using locally identifiable resources such as bio-based materials derived from plants.</p>
+    <p>The vision of MADE-PUBLIC is a future intelligent, scalable, and democratized manufacturing paradigm to enable distributed manufacturing of low-cost printable electronic devices using locally identifiable resources such as bio-based materials derived from plants.</p>
     <div class="card mt-4">
       <div class="card-header">{{title|default:'Result'}}</div>
       <div class="card-body">
