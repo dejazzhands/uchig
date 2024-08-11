@@ -29,8 +29,8 @@ def Repository(request):
 def Test_Tagging_System(request):
     return render(request, 'globus-portal-framework/v2/Test Tagging System.html')
 
-def Knowledge_Map(request):
-    return render(request, 'globus-portal-framework/v2/Knowledge_Map.html')
+def Graph_Visualization(request):
+    return render(request, 'globus-portal-framework/v2/Graph_Visualization.html')
 
 def ML_Computing_Toolbox(request):
     return render(request, 'globus-portal-framework/v2/ML_Computing_Toolbox.html')

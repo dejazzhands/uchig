@@ -1,0 +1,36 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View JSON Files</title>
+</head>
+<body>
+    <h1>Click a link to view the JSON file:</h1>
+    <ul>
+        <li><a href="#" onclick="loadJSON('json/hyunjunejang.json')">View hyunjunejang.json</a></li>
+        <li><a href="#" onclick="loadJSON('json/raptigosh.json')">View raptigosh.json</a></li>
+    </ul>
+
+    <h2>JSON Data:</h2>
+    <pre id="json-output"></pre> <!-- Element to display JSON -->
+
+    <script>
+        function loadJSON(filePath) {
+            fetch("{% static '' %}" + filePath)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Display the JSON data in the HTML element
+                document.getElementById('json-output').textContent = JSON.stringify(data, null, 2);
+            })
+            .catch(error => console.error('Error fetching JSON:', error));
+        }
+    </script>
+</body>
+</html>
