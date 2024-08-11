@@ -26,8 +26,8 @@ PROJECT_TITLE = 'MADE-PUBLIC Data Portal'
 # You can generate a secure secret key with `openssl rand -hex 32`
 SECRET_KEY = 'a5fbdafa867f7c92f1293664a8e3c12e8c5bc9ffc8f1fdeaacb2d4899a81d1e7'
 # Your portal credentials for enabling user login via Globus Auth
-SOCIAL_AUTH_GLOBUS_KEY = '102134d0-ab58-49d5-bbe8-e6a7f77e1b85'
-SOCIAL_AUTH_GLOBUS_SECRET = 'DnCyWNfV6f/atj7HyFUZZH5nlf6fXb4dr3Dhw0XxQOQ='
+SOCIAL_AUTH_GLOBUS_KEY = '45b8ad5c-9bba-4fbb-ae4c-88680de83d06'
+SOCIAL_AUTH_GLOBUS_SECRET = '9SsElNDNgEBvdVA5a+A4YutlbQ8wAdcEOjqFpUA/9bk='
 
 # This is a general Django setting if views need to redirect to login
 # https://docs.djangoproject.com/en/3.2/ref/settings/#login-url
