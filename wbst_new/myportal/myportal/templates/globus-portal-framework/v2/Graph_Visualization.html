@@ -5,32 +5,113 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>View JSON Files</title>
-</head>
-<body>
-    <h1>Click a link to view the JSON file:</h1>
-    <ul>
-        <li><a href="#" onclick="loadJSON('json/hyunjunejang.json')">View hyunjunejang.json</a></li>
-        <li><a href="#" onclick="loadJSON('json/raptigosh.json')">View raptigosh.json</a></li>
-    </ul>
 
-    <h2>JSON Data:</h2>
-    <pre id="json-output"></pre> <!-- Element to display JSON -->
-
-    <script>
-        function loadJSON(filePath) {
-            fetch("{% static '' %}" + filePath)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
-            .then(data => {
-                // Display the JSON data in the HTML element
-                document.getElementById('json-output').textContent = JSON.stringify(data, null, 2);
-            })
-            .catch(error => console.error('Error fetching JSON:', error));
+    <style>
+        #cy {
+            width: 100%;
+            height: 600px;
+            display: block;
+            border: 1px solid #ccc;
         }
+    </style>
+
+</head>
+
+<body>
+    <h1>Graph Visualization</h1>
+    <div id="cy">
+
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.21.1/cytoscape.min.js"></script>
+    <script>
+        // Fetch the JSON file from the static directory
+        fetch("{% static 'json/raptigosh.json' %}")
+        .then(response => response.json())
+        .then(data => {
+            // Assuming the data contains nodes and edges like explained earlier
+            var graphData = {
+            nodes: data.ingest_data.gmeta.map(gmetaItem => ({
+                    data: {
+                        id: gmetaItem.id,
+                        label: gmetaItem.content.Title, 
+                        creator: gmetaItem.content.creator
+                    }
+                })),
+                edges: data.ingest_data.edges.map(edgeItem => ({
+                    data: {
+                        source: edgeItem.source,
+                        target: edgeItem.target,
+                        relationship: edgeItem.relationship
+                    }
+                }))
+            };
+
+            // Initialize Cytoscape
+            var cy = cytoscape({
+                container: document.getElementById('cy'),
+                elements: graphData,
+                style: [
+                    {
+                        selector: 'node',
+                        style: {
+                            'label': 'data(label)',
+                            'background-color': '#6FB1FC',
+                            'shape': 'rectangle',
+                            'text-valign': 'center',
+                            'text-halign': 'center',
+                        }
+                    },
+                    {
+                        selector: 'edge',
+                        style: {
+                            'width': 2,
+                            'line-color': '#ccc',
+                            'label': 'data(relationship)'
+                        }
+                    }
+                ],
+                layout: {
+                    name: 'cose',
+                    idealEdgeLength: 100,  // Adjust to space out nodes
+                    nodeRepulsion: 4000,   // Increase to push nodes apart
+                    fit: true,
+                    padding: 10,
+                    randomize: false,
+                    animate: true,
+                    animationDuration: 1000
+                }
+            });
+        })
+        .catch(error => console.error('Error fetching JSON:', error));
     </script>
 </body>
+
 </html>
+
+<!-- <h1>Click a link to view the JSON file:</h1>
+<ul>
+    <li><a href="#" onclick="loadJSON('json/hyunjunejang.json')">View hyunjunejang.json</a></li>
+    <li><a href="#" onclick="loadJSON('json/raptigosh.json')">View raptigosh.json</a></li>
+</ul>
+
+<h2>JSON Data:</h2>
+<pre id="json-output"></pre>
+
+<script>
+    
+    function loadJSON(filePath) {
+        fetch("{% static '' %}" + filePath)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            // Display the JSON data in the HTML element
+            document.getElementById('json-output').textContent = JSON.stringify(data, null, 2);
+        })
+        .catch(error => console.error('Error fetching JSON:', error));
+    }
+</script>
